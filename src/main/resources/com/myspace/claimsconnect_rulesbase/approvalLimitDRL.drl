@@ -1,0 +1,52 @@
+package com.myspace.claimsconnect_rulesbase;
+import com.myspace.claimsconnect_rulesbase.approvalLimit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+ruleflow-group "approvalLimitDRL"
+rule "level1"
+when
+$approvalLimit:approvalLimit(approvalLimit.amount<=600000)
+$a:  List()  
+              from collect( java.util.List() from $approvalLimit.getRole()) 
+
+then
+$a.add("SNRASS");
+$a.add("TLDMNG");
+$approvalLimit.setRole($a);
+end;
+
+ruleflow-group "approvalLimitDRL"
+rule "level2"
+when
+$approvalLimit:approvalLimit(approvalLimit.amount>600000 && approvalLimit.amount<=1100000)
+$a:  List()  
+              from collect( java.util.List() from $approvalLimit.getRole()) 
+then
+$a.add("CLMMNG");
+$approvalLimit.setRole($a);
+end;
+
+ruleflow-group "approvalLimitDRL"
+rule "level3"
+when
+$approvalLimit:approvalLimit(approvalLimit.amount>1100000 && approvalLimit.amount<=2100000)
+$a:  List()  
+              from collect( java.util.List() from $approvalLimit.getRole()) 
+then
+$a.add("CLHMNG");
+$approvalLimit.setRole($a);
+end;
+
+ruleflow-group "approvalLimitDRL"
+rule "level4"
+when
+$approvalLimit:approvalLimit(approvalLimit.amount>2100000)
+$a:  List()  
+              from collect( java.util.List() from $approvalLimit.getRole()) 
+then
+$a.add("CEOMNG");
+$approvalLimit.setRole($a);
+end;

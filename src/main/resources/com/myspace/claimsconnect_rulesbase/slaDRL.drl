@@ -1,0 +1,314 @@
+package com.myspace.claimsconnect_rulesbase;
+import com.myspace.claimsconnect_rulesbase.slaObject;
+import com.myspace.claimsconnect_rulesbase.slaResult;
+import java.util.ArrayList;
+import java.util.List;
+
+ruleflow-group "slaDRL"
+rule "Rule1"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral") && slaObject.persona=="ADMOPR" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDADM","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule2"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && slaObject.persona=="ASSOPR" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","96h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule3"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && slaObject.persona=="ASSOPR" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule4"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral") && slaObject.persona=="CALLQA" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDADM","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule5"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral") && slaObject.persona=="SNRASS" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule6"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && (slaObject.persona=="FOR2IC" || slaObject.persona=="FORMNG" || slaObject.persona=="FORINV") && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("assessor","Escalation","48h",false,"2","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("FORMNG","Escalation","48h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule7"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && (slaObject.persona=="FOR2IC" || slaObject.persona=="FORMNG" || slaObject.persona=="FORINV") && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","48h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("assessor","Escalation","72h",false,"2","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("FORMNG","Escalation","72h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule8"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral")  && slaObject.persona=="ACTOPR" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","48h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","48h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role",""));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule9"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral") && slaObject.persona=="UNDWRT" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("assessor","Escalation","24h",false,"2","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("UNDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule10"
+when
+$slaObject:slaObject((slaObject.claimType=="Life" || slaObject.claimType=="Funeral") && slaObject.persona=="UNDMNG" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule11"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && slaObject.persona=="RINOPR" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","48h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("assessor","Escalation","24h",false,"2","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("RINMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule12"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && slaObject.persona=="RINMNG" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule13"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && (slaObject.persona=="TLDADM" || slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG") && slaObject.status=="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","48h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","48h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDADM","Escalation","48h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule14"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && (slaObject.persona=="TLDADM" || slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG") && slaObject.status=="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDADM","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule15"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && (slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG") && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","96h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule16"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && (slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG") && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule17"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && slaObject.persona=="TLDADM"  && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","96h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule18"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && slaObject.persona=="TLDADM" && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule19"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && (slaObject.persona=="CLHMNG" || slaObject.persona=="CEOMNG") && slaObject.status!="pending" && slaObject.status!="payment")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"2","role","TLDMNG"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule20"
+when
+$slaObject:slaObject(slaObject.claimType=="Life" && (slaObject.persona=="SNRASS" || slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG" || slaObject.persona=="CLHMNG" || slaObject.persona=="CEOMNG") && slaObject.status=="pending")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","48h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","48h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","48h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
+
+ruleflow-group "slaDRL"
+rule "Rule21"
+when
+$slaObject:slaObject(slaObject.claimType=="Funeral" && (slaObject.persona=="SNRASS" || slaObject.persona=="TLDMNG" || slaObject.persona=="CLMMNG" || slaObject.persona=="CLHMNG" || slaObject.persona=="CEOMNG") && slaObject.status=="pending")
+$a:  ArrayList()  
+              from collect( com.myspace.claimsconnect_rulesbase.slaResult( ) from $slaObject.getSlaResult()) 
+then
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("owner","Self Reminder","24h",false,"1","operator",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("TLDMNG","Escalation","24h",false,"2","role",""));
+$slaObject.setSlaResult($a);
+$a.add(new com.myspace.claimsconnect_rulesbase.slaResult("CLMMNG","Escalation","24h",false,"3","role","TLDADM"));
+$slaObject.setSlaResult($a);
+end;
